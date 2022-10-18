@@ -1,0 +1,22 @@
+# Use root/example as user/password credentials
+version: '3.7'
+
+services:
+  mongo:
+    container_name: mongodb-t3-stack
+    image: bitnami/mongodb:4.4
+    restart: always
+    environment:
+      MONGODB_ADVERTISED_HOSTNAME: 127.0.0.1
+      MONGODB_ROOT_USER: root
+      MONGODB_ROOT_PASSWORD: prisma
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_REPLICA_SET_KEY: xkey12345
+      INIT_WAIT_SEC: 3
+    ports:
+      - "27017:27017"
+    volumes:
+      - 'mongo-db:/bitnami/mongodb'
+
+volumes:
+  mongo-db:
