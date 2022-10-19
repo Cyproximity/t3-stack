@@ -1,12 +1,10 @@
 import * as trpc from "@trpc/server"
-import { z } from "zod";
 import { Prisma } from "@prisma/client";
 import { pbkdf2Sync, randomBytes } from "crypto";
 import { router, createUserProcedure, accessUserProcedure, publicProcedure } from "../trpc";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { signJwt } from "../../../utils/jwt";
 import { serialize } from "cookie";
-import { TokenExpiredError } from "jsonwebtoken";
 
 const defaultUserSelect = Prisma.validator<Prisma.UserSelect>()({
   id: true,
@@ -101,7 +99,8 @@ export const usersRouter = router({
     const jwt = signJwt({ 
       email: user.email, 
       username: user.username, 
-      id: user.id 
+      id: user.id ,
+      role: user.role
     })
   
     ctx.res.setHeader("Set-Cookie", serialize("token", jwt, { path: "/" }))

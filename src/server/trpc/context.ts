@@ -21,7 +21,8 @@ interface CtxUser {
   username: string
   email: string
   iat: string
-  exp: number
+  exp: number,
+  role: string
 }
 
 const getUserFromRequest = ({req}: trpcNext.CreateNextContextOptions) => {
