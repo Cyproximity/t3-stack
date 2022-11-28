@@ -10,22 +10,23 @@ datasource db {
 enum Role {
   USER
   SELLER
-  ADMINISTRATOR
+  ADMIN
+  SUPER_ADMIN
 }
 
 model User {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  email     String @unique 
-  username  String @unique
-  name      String
-  role      Role @default(USER)
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String @unique
+  username String @unique
+  name     String
+  role     Role   @default(USER)
 
   productGroups ProductGroup[]
 
-  salt      String
-  hash      String
+  salt String
+  hash String
 
-  token     Token?
+  token Token?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -34,12 +35,12 @@ model User {
 }
 
 model Token {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  
-  user      User @relation(fields: [userId], references: [id])
-  userId    String @unique
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  redirect  String @default("/")
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  redirect String @default("/")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -50,9 +51,9 @@ model Token {
 model ProductCategory {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name String
+  name        String
   description String
-  photo String
+  photo       String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -67,46 +68,46 @@ enum Currencies {
 }
 
 model ProductGroup {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   slug        String?
   description String?
-  published   Boolean @default(false)
+  published   Boolean     @default(false)
   currency    Currencies? @default(php)
 
-  user        User? @relation(fields: [userId], references: [id]) // [ProductGroup] can only have one user
-  userId      String @db.ObjectId
+  user   User?  @relation(fields: [userId], references: [id]) // [ProductGroup] can only have one user
+  userId String @db.ObjectId
 
-  products    Product[]
+  products Product[]
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("product-groups")
 }
 
 model Product {
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  description   String?
-  stock         Int @default(0)
-  price         Int @default(0)
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  stock       Int     @default(0)
+  price       Int     @default(0)
 
-  group         ProductGroup? @relation(fields: [groupId], references: [id])
-  groupId       String @db.ObjectId
-  
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  group   ProductGroup? @relation(fields: [groupId], references: [id])
+  groupId String        @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("products")
 }
 
 model Cart {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  isGuest     Boolean @default(true)
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  isGuest Boolean @default(true)
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("carts")
 }
