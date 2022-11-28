@@ -6,7 +6,7 @@ import Head from "next/head";
 import { trpc } from "../utils/trpc";
 import { UserContextProvider } from "../context/user.context";
 import ProtectedRoute from "../components/wrappers/ProtectedRoutes";
-import { MantineProvider } from "@mantine/core";
+import { Center, Loader, MantineProvider } from "@mantine/core";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -22,6 +22,14 @@ const App: AppType = (props: AppPropsWithLayout) => {
 
   const getLayout = Component.getLayout ?? ((page: any) => page);
   const layout = getLayout(<Component {...pageProps} />);
+
+  if (isLoading) {
+    return (
+      <Center p="xl" m="xl">
+        <Loader color="yellow" size="xs" variant="dots" />
+      </Center>
+    );
+  }
 
   return (
     <>
