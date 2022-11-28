@@ -1,5 +1,3 @@
-import { Flex } from "@mantine/core";
-import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import React from "react";
 import Public from "../components/layouts/Public";

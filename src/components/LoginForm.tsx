@@ -67,7 +67,7 @@ const LoginForm: FC = () => {
         <Paper shadow="xs" p="md" style={{ width: 400, position: "relative" }}>
           <LoadingOverlay visible={isLoading} overlayBlur={2} />
           <Title mb="lg" fw={700} order={3}>
-            Login
+            Log In
           </Title>
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <TextInput
