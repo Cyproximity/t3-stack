@@ -29,7 +29,7 @@ const LoginForm: FC = () => {
     onSuccess(data) {
       router.push(data.redirect.includes("login") ? "/" : data.redirect);
     },
-    onError(error, variables, context) {
+    onError(error) {
       if (error?.data?.httpStatus === 403) {
         resetField("password");
         setLoginErr(error?.message);
